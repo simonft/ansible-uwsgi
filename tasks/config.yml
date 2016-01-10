@@ -1,0 +1,15 @@
+---
+- name: Template out main configuration file
+  template:
+    src: etc/uwsgi/apps-available/emperor.ini.j2
+    dest: /etc/uwsgi/apps-available/emperor.ini
+  tags:
+    - copy_uwsgi_config
+
+- name: Ensure configuration file is enabled
+  file:
+    state: link
+    src: /etc/uwsgi/apps-available/emperor.ini
+    path: /etc/uwsgi/apps-enabled/emperor.ini
+  tags:
+    - copy_uwsgi_config

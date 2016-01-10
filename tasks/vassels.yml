@@ -1,0 +1,17 @@
+---
+- name: Ensure vassels directory exists
+  file:
+    state: directory
+    path: "{{ uwsgi.vassel_files.path | default('/etc/uwsgi/vassals/') }}"
+  when: uwsgi.vassel_files is defined
+  tags:
+    - copy_vassel_config
+
+- name: "Template out vassel's configs"
+  template:
+    src: vassel_config.ini.j2
+    dest: "{{ uwsgi.vassel_files.path | default('/etc/uwsgi/vassals/') }}/{{ item.key }}.ini"
+  with_dict: uwsgi.vassel_files.vassels
+  when: uwsgi.vassel_files is defined
+  tags:
+    - copy_vassel_config

@@ -1,0 +1,11 @@
+---
+- name: Ensure uwsgi is installed
+  apt:
+    name: uwsgi
+    state: installed
+
+- name: Ensure required plugins are installed
+  apt:
+    name: "uwsgi-plugin-{{ item }}"
+  with_items: uwsgi.plugins
+  when: uwsgi.plugins is defined
